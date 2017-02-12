@@ -10,7 +10,8 @@ If this page becomes a useful cheatsheet (at least for me), I might try to trans
 Was viele nicht wissen: JS fügt automatisch Semikolons hinzu! Das führt i.d.R. zu keinen Problemen, ausser: wenn eine öffnende Klammer am Anfang einer Linie steht (kann z.B. passieren, wenn eine [_IIFE_](https://github.com/ckpinguin/JS-Cheatings/blob/master/README.md#immediately-invoked-function-expression-iife) verwendet wird).
 Es ist eine Frage des persönlichen Geschmacks resp. Faulheit, ob man ; nutzt oder nicht.
 
-## prototype vs. __proto__
+## prototype vs. `__proto__`
+Kurzdefinition: `__proto__` ist das Objekt, welches in der _Lookup chain_ benutzt wird, um Methoden, Properties etc. aufzulösen. `prototype` hingegen ist das Objekt, welches dazu benutzt wird, den `__proto__` zu erstellen, wenn ein Object mit `new` kreiert wird.
 
 ### prototype
 Nur Funktionen haben das _accessor-property_ namens `prototype`. Es wird (vermutlich)  nur für die `new` Funktionalität genutzt, weil es auf den jeweiligen `contstructor` der zu erzeugenden Klasse zeigt, welcher wiederum nichts anderes als die Funktionsdefinition mit dem Klassennamen ist. Damit werden Klassen simuliert mittels Funktionen.
@@ -22,6 +23,18 @@ Erweiterung einer Funktion (resp. Fake-Klasse, da es nur eine Funktion mit gross
     }
 Info: `Function` (das Objekt) hat `function` (die JS-Primitive) als `prototype`, während `Object` selber `Object` als `prototype` hat. Wenn allerdings eine Funktion mit `new Function()` definiert wird, hat diese wiederum `Object` als `prototype`. Verwirrend? Ja, denn der Name `prototype` ist sehr leicht mit dem `__proto__` resp. dem echten _Prototype-Behaviour-Delegation_-Mechanismus zu verwechseln (welcher `__proto__` nutzt), hat damit jedoch nichts zu tun! Es wird noch lustiger, wenn man `Object.getPrototypeOf(Function.prototype)` usw. anschaut, d.h. den `__proto__` Delegations-Mechanismus für das `prototype`-Property eines Objektes verwendet. Muahahaha.
 Vererbung wird bspw. mit `Button.prototype = Object.create(Widget.prototype)` simuliert und benötigt vor ES6 übel aussehende Hacks bez. `call()` und `apply()` für `super()`-Aufrufe oder überschriebene Methoden. Dass dies ab ES6 mit einfacherer Syntax funktioniert löst nicht das eigentliche Problem, dass die OO-Programmierung resp. Klassenorientierung in JS künstlich aufgesetzt ist.
+
+#### `prototype.constructor`?
+`prototype.constructor` ist nichts weiter als eine Referenz zu der Funktion, welche per `new` ein Objekt „konstruierte“:
+
+    function Foo() {
+    ...
+    }
+    Foo.prototype.constructor === Foo; // true
+
+    var a = new Foo();
+    a.constructor === Foo; // true
+Hier werden wir allerdings hinters Licht geführt, denn das Objekt `a` besitzt kein Property `constructor`, die Auflösung funktioniert nur wegen der Delegation an `Foo`. Hier wurde keine Klasse instanziert oder ein Objekt aus einer „Vorlage“ kopiert, aber die Semantik von `new` und `class` etc. versuchen, genau dies vorzuspiegeln. Ein Grund dafür, dass ES6 all dies offiziell unterstützt ist sicherlich, dass die meisten Programmierer in Objektorientierung ausgebildet wurden und mit der Delegation und Functional Programming vorerst nicht viel anfangen können (ich gehörte auch dazu).
 
 ## (Behaviour)-Delegation & `[[Prototype]]`
 `[[Prototype]]` ist eine Bezeichnung aus der ECMA-Spezifikation. Es handelt sich um eine simple __Referenz zu einem anderen Objekt__. Jedes Objekt erhält so eine Referenz zu seiner Erstellungszeit (Ausnahmen sind möglich aber selten). Durch diese Referenz wird Funktionalität resp. Verhalten (Behaviour) delegiert an andere gleichberechtigte Objekte. Es gibt im Gegensatz zu OO-Sprachen keine Eltern-Kind-Beziehung! Wenn ein Property resp. eine Methode eines Objektes aufgerufen wird und dieses in diesem Objekt nicht direkt auffindbar ist, wird automatisch sein `[[Prototype]]` durchsucht. Dieses Objekt hat wiederum einen `[[Prototype]]` gesetzt usw. So entsteht eine Delegationskette bis zu `Object.prototype`, wo einige grundsätzliche Methoden und Properties definiert sind. Beispiel:
