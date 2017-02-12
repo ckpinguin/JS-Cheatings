@@ -60,6 +60,12 @@ State (Variablen) sollte immer in den delegierenden Objekten sein, nicht in den 
 ## `new` vs. `Object.create()` resp. `Object.create()` vs. `Object.setPrototypeOf()`
 `new()` sollte möglichst nicht verwendet werden, es dient der Simulation (fake) von Klassen resp. OO-Programmierung. Um ein Objekt mit Delegation zu erzeugen, verwendet man am besten `Object.create()`. Beispiel: `var myCat = Object.create(cat)`. Hier ist `cat` der Prototyp resp. das Objekt, an welches `myCat` Funktionalitäten oder nicht findbare Aufrufe von Properties und Funktionen delegiert. Wenn also Properties oder Funktionalität benötigt wird, welche `myCat` nicht bietet, wird dies implizit oder explizit delegiert. Man könnte dies auch mit `Object.setPrototypeOf(obj, proto)` nachträglich machen, aber das hat eine eher schlechte Performanz VERIFY?.
 
+Wir können auch ein Objekt ohne Referenz auf ein Objekt erstellen:
+```javascript
+Object.create(null);
+```
+Dies wird für sogenannte _Dictionaries_ gemacht, welche einfach nur Objekte mit Daten sind, also flache Datenspeicher ohne überraschende Nebeneffekte
+.
 ## `this` Bindung
 TODO / TOLEARN
 
