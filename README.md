@@ -62,7 +62,7 @@ myCat.sayHello();
 Man könnte vereinfacht sagen, dass OO-Design oder genauer Vererbung bedeutet, dass eine Applikation um Komponenten designt wird, auf Basis ihres Typs, also was sie sind. Demgegenüber wird bei der Delegation resp. Komposition designt um Komponenten auf Basis dessen, was sie tun (Funktionalität). Der Unterschied hat nicht nur mit Typisierung zu tun, sondern ist eine fundamental andere Sicht auf das Design.
 
 ## `new` vs. `Object.create()` resp. `Object.create()` vs. `Object.setPrototypeOf()`
-`new()` sollte möglichst nicht verwendet werden, es dient der Simulation (fake) von Klassen resp. OO-Programmierung. Um ein Objekt mit Delegation zu erzeugen, verwendet man am besten `Object.create()`. Beispiel: `var myCat = Object.create(cat)`. Hier ist `cat` der Prototyp resp. das Objekt, an welches `myCat` Funktionalitäten oder nicht findbare Aufrufe von Properties und Funktionen delegiert. Wenn also Properties oder Funktionalität benötigt wird, welche `myCat` nicht bietet, wird dies implizit oder explizit delegiert. Man könnte dies auch mit `Object.setPrototypeOf(obj, proto)` nachträglich machen, aber das hat eine eher schlechte Performanz VERIFY?.
+`new()` sollte möglichst nicht verwendet werden, es dient der Simulation (fake) von Klassen resp. OO-Programmierung. Um ein Objekt mit Delegation zu erzeugen, verwendet man am besten `Object.create()`. Beispiel: `var myCat = Object.create(cat)`{.javascript}. Hier ist `cat` der Prototyp resp. das Objekt, an welches `myCat` Funktionalitäten oder nicht findbare Aufrufe von Properties und Funktionen delegiert. Wenn also Properties oder Funktionalität benötigt wird, welche `myCat` nicht bietet, wird dies implizit oder explizit delegiert. Man könnte dies auch mit `Object.setPrototypeOf(obj, proto)` nachträglich machen, aber das hat eine eher schlechte Performanz VERIFY?.
 
 Wir können auch ein Objekt ohne Referenz auf ein Objekt erstellen:
 ```javascript
@@ -89,16 +89,21 @@ Somit sehen wir, dass JS für Funktionsreferenzen auch eine versteckte Referenz 
 
 ## Immediately Invoked Function Expression (IIFE):
 ```javascript
-    (function count(){
-      for (let i = 0; i < 10; i++)
-        {console.log(i);}
-    })()
-    Die (häufig anonyme) Funktion wird gleich mit der Definition aufgerufen.
-```
-    Variable-Hoisting
-    function count(){
-      for (var i = 0; i < 10; i++)
-        {console.log(i);}
+(function count() {
+    for (let i = 0; i < 10; i++) {
+        console.log(i);
     }
+})()
+```
+Die (häufig anonyme) Funktion wird gleich mit der Definition aufgerufen.
+
+## Variable-Hoisting
+```javascript
+function count() {
+    for (var i = 0; i < 10; i++) {
+        console.log(i);
+    }
+}
+```
 `var` wird hier überall in der Funktion `count()` verfügbar (`let` wäre sauberer wegen Block-Scope und könnte dies verhindern) auch für Code, welcher vor dem `for`-Loop steht. Das geschieht durch das sogenannte _Hoisting_ der Variablen-Deklaration an den Anfang ihres Scopes (hier die Funktion). Im Extremfall führt Hoisting zur versehentlichen Global-Definition (bspw. im `window`-Objekt bei Browser-basiertem JS), wenn `var` hier im `for`-loop vergessen geht und nur eine Wertzuweisung stattfindet (`i=0` anstatt `var i=0`). Dies ist unbedingt zu vermeiden, indem man an den Anfang von jedem JS ein `
 use strict";` einfügt. Bei ES6 / React.js etc. ist dies schon implizit der Fall VERIFY?
