@@ -18,10 +18,11 @@ Nur Funktionen haben das _accessor-property_ namens `prototype`. Es wird (vermut
 
 #### Anwendungsbeispiel
 Erweiterung einer Funktion (resp. Fake-Klasse, da es nur eine Funktion mit grossem Anfangsbuchstaben ist) um weitere Methoden:
-
-    Cat.prototype.say = function(word) {
-        console.log('Miau', word);
-    }
+```javascript
+Cat.prototype.say = function(word) {
+    console.log('Miau', word);
+}
+```
 Info: `Function` (das Objekt) hat `function` (die JS-Primitive) als `prototype`, während `Object` selber `Object` als `prototype` hat. Wenn allerdings eine Funktion mit `new Function()` definiert wird, hat diese wiederum `Object` als `prototype`. Verwirrend? Ja, denn der Name `prototype` ist sehr leicht mit dem `__proto__` resp. dem echten _Prototype-Behaviour-Delegation_-Mechanismus zu verwechseln (welcher `__proto__` nutzt), hat damit jedoch nichts zu tun! Es wird noch lustiger, wenn man `Object.getPrototypeOf(Function.prototype)` usw. anschaut, d.h. den `__proto__` Delegations-Mechanismus für das `prototype`-Property eines Objektes verwendet. Muahahaha.
 Vererbung wird bspw. mit `Button.prototype = Object.create(Widget.prototype)` simuliert und benötigt vor ES6 übel aussehende Hacks bez. `call()` und `apply()` für `super()`-Aufrufe oder überschriebene Methoden. Dass dies ab ES6 mit einfacherer Syntax funktioniert löst nicht das eigentliche Problem, dass die OO-Programmierung resp. Klassenorientierung in JS künstlich aufgesetzt ist.
 
