@@ -2,12 +2,13 @@
 My personal JS-Cheatsheet reflecting my learnings about the nuts & bolts of JS/ECMA whatever you prefer calling it. It is currently in German, because that better stuffs in my brain.
 
 
-Semikolons?
+# Semikolons?
 Was viele nicht wissen: JS fügt automatisch Semikolons hinzu! Das führt i.d.R. zu keinen Problemen, ausser: wenn eine öffnende Klammer am Anfang einer Linie steht (kann z.B. passieren, wenn eine IIFE verwendet wird).
 Es ist eine Frage des persönlichen Geschmacks resp. Faulheit, ob man ; nutzt oder nicht.
 
-prototype vs. __proto__
-prototype
+# prototype vs. __proto__
+
+## prototype
 Nur Funktionen haben das accessor-property "prototype". Es wird (vermutlich)  nur für die "new()" Funktionalität genutzt, weil es auf den "contstructor" der zu erzeugenden Klasse zeigt, welcher eigentlich nichts anderes als die Funktionsdefinition mit dem Klassennamen ist. Damit werden Klassen simuliert mittels Funktionen. Anwendungsbeispiel: Erweiterung einer Funktion (resp. Fake-Klasse, da es nur eine Funktion mit grossem Anfangsbuchstaben ist) um weitere Methoden:
 Cat.prototype.say = function(word) { console.log('Miau', word); }
 Info: Function hat "function" als "prototype", während Object "Object" als "prototype" hat. Wenn allerdings eine Funktion mit "new Function()" definiert wird, hat diese wiederum "Object" als "prototype". Verwirrend? Ja, denn der Name "prototype" ist sehr leicht mit dem "__proto__" resp. dem echten "Prototype-Behaviour-Delegation"-Mechanismus zu verwechseln, hat damit jedoch nichts zu tun! Es wird noch lustiger, wenn man "Object.getPrototypeOf(Function.prototype)" usw. anschaut, d.h. den __proto__-Mechanismus für das prototype-Property verwendet. Muahahaha. Vererbung wird bspw. mit "Button.prototype = Object.create(Widget.prototype)" simuliert und benötigt vor ES6 übel aussehende Hacks bez. "call" und "apply" für super-Aufrufe oder überschriebene Methoden. Dass dies ab ES6 mit einfacherer Syntax funktioniert löst nicht das eigentliche Problem, dass die OO-Programmierung resp. Klassenorientierung in JS künstlich aufgesetzt ist.
