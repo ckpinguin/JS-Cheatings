@@ -4,7 +4,7 @@ A lot of credit for my understanding of JS goes to the »[You Don't Know JS](htt
 If this page becomes a useful cheatsheet (at least for me), I might try to translate in to English in the future...
 
 ## Semikolons?
-Was viele nicht wissen: JS fügt automatisch Semikolons hinzu! Das führt i.d.R. zu keinen Problemen, ausser: wenn eine öffnende Klammer am Anfang einer Linie steht (kann z.B. passieren, wenn eine [_IIFE_] verwendet wird).
+Was viele nicht wissen: JS fügt automatisch Semikolons hinzu! Das führt i.d.R. zu keinen Problemen, ausser: wenn eine öffnende Klammer am Anfang einer Linie steht (kann z.B. passieren, wenn eine [_IIFE_](https://github.com/ckpinguin/JS-Cheatings/blob/master/README.md#immediately-invoked-function-expression-iife) verwendet wird).
 Es ist eine Frage des persönlichen Geschmacks resp. Faulheit, ob man ; nutzt oder nicht.
 
 ## prototype vs. __proto__
