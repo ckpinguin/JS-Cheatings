@@ -15,6 +15,7 @@ Kurzdefinition: `__proto__` ist das Objekt, welches in der _Lookup chain_ benutz
 
 ### prototype
 Nur Funktionen haben das _accessor-property_ namens `prototype`. Es wird (vermutlich)  nur für die `new` Funktionalität genutzt, weil es auf den jeweiligen `contstructor` der zu erzeugenden Klasse zeigt, welcher wiederum nichts anderes als die Funktionsdefinition mit dem Klassennamen ist. Damit werden Klassen simuliert mittels Funktionen.
+
 #### Anwendungsbeispiel
 Erweiterung einer Funktion (resp. Fake-Klasse, da es nur eine Funktion mit grossem Anfangsbuchstaben ist) um weitere Methoden:
 
@@ -25,7 +26,7 @@ Info: `Function` (das Objekt) hat `function` (die JS-Primitive) als `prototype`,
 Vererbung wird bspw. mit `Button.prototype = Object.create(Widget.prototype)` simuliert und benötigt vor ES6 übel aussehende Hacks bez. `call()` und `apply()` für `super()`-Aufrufe oder überschriebene Methoden. Dass dies ab ES6 mit einfacherer Syntax funktioniert löst nicht das eigentliche Problem, dass die OO-Programmierung resp. Klassenorientierung in JS künstlich aufgesetzt ist.
 
 #### `prototype.constructor`?
-`prototype.constructor` ist nichts weiter als eine Referenz zu der Funktion, welche per `new` ein Objekt „konstruierte“:
+`prototype.constructor` ist nichts weiter als eine Referenz zu der Funktion, welche per `new` ein Objekt „konstruierte“ (das trifft nicht in allen Fällen zu, also wieder ein relativ unbrauchbares „Feature“, um Klassen zu faken):
 
     function Foo() {
     ...
