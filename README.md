@@ -28,14 +28,15 @@ Vererbung wird bspw. mit `Button.prototype = Object.create(Widget.prototype)` si
 
 #### `prototype.constructor`?
 `prototype.constructor` ist nichts weiter als eine Referenz zu der Funktion, welche per `new` ein Objekt „konstruierte“ (das trifft nicht in allen Fällen zu, also wieder ein relativ unbrauchbares „Feature“, um Klassen zu faken):
+```javascript
+function Foo() {
+...
+}
+Foo.prototype.constructor === Foo; // true
 
-    function Foo() {
-    ...
-    }
-    Foo.prototype.constructor === Foo; // true
-
-    var a = new Foo();
-    a.constructor === Foo; // true
+var a = new Foo();
+a.constructor === Foo; // true
+```
 Hier werden wir allerdings hinters Licht geführt, denn das Objekt `a` besitzt kein Property `constructor`, die Auflösung funktioniert nur wegen der Delegation an `Foo`. `Foo` ist kein Konstruktor und auch keine Klasse, sondern eine normale Funktion mit einem grossen Anfangsbuchstaben. Der Aufruf von `new` trägt diese Referenz ein. Beide Namen, `prototype` und `constructor` scheinen fast absichtlich so verwirrend benannt worden zu sein.
 
 Fazit: Hier wurde also keine Klasse instanziert oder ein Objekt aus einer „Vorlage“ kopiert, aber die Semantik von `new` und `class` etc. versuchen, genau dies vorzuspiegeln. Ein Grund dafür, dass ES6 all dies offiziell unterstützt ist sicherlich, dass die meisten Programmierer in Objektorientierung ausgebildet wurden und mit der Delegation und Functional Programming vorerst nicht viel anfangen können (ich gehörte auch dazu).
@@ -47,17 +48,17 @@ State (Variablen) sollte immer in den delegierenden Objekten sein, nicht in den 
 
 ## (Behaviour)-Delegation & `[[Prototype]]`
 `[[Prototype]]` ist eine Bezeichnung aus der ECMA-Spezifikation. Es handelt sich um eine simple __Referenz zu einem anderen Objekt__. Jedes Objekt erhält so eine Referenz zu seiner Erstellungszeit (Ausnahmen sind möglich aber selten). Durch diese Referenz wird Funktionalität resp. Verhalten (Behaviour) delegiert an andere gleichberechtigte Objekte. Es gibt im Gegensatz zu OO-Sprachen keine Eltern-Kind-Beziehung! Wenn ein Property resp. eine Methode eines Objektes aufgerufen wird und dieses in diesem Objekt nicht direkt auffindbar ist, wird automatisch sein `[[Prototype]]` durchsucht. Dieses Objekt hat wiederum einen `[[Prototype]]` gesetzt usw. So entsteht eine Delegationskette bis zu `Object.prototype`, wo einige grundsätzliche Methoden und Properties definiert sind. Beispiel:
-
-    const cat = {
-        sayHello: function() {
-            console.log('Meow, my name is ' + this.name);
-        },
-        breed: 'Strassenkatze'
-    };
-    const myCat = Object.create(cat);
-    myCat.name = 'Flauschi';
-    myCat.sayHello();
-
+```javascript
+const cat = {
+    sayHello: function() {
+        console.log('Meow, my name is ' + this.name);
+    },
+    breed: 'Strassenkatze'
+};
+const myCat = Object.create(cat);
+myCat.name = 'Flauschi';
+myCat.sayHello();
+```
 Man könnte vereinfacht sagen, dass OO-Design oder genauer Vererbung bedeutet, dass eine Applikation um Komponenten designt wird, auf Basis ihres Typs, also was sie sind. Demgegenüber wird bei der Delegation resp. Komposition designt um Komponenten auf Basis dessen, was sie tun (Funktionalität). Der Unterschied hat nicht nur mit Typisierung zu tun, sondern ist eine fundamental andere Sicht auf das Design.
 
 ## `new` vs. `Object.create()` resp. `Object.create()` vs. `Object.setPrototypeOf()`
@@ -74,26 +75,26 @@ TODO / TOLEARN
 
 ## Closures
 In JavaScript kreiert man eine _Closure_ (Deutsch: Funktionsabschluss) indem man `function` innerhalb einer anderen `function` benutzt:
-
-    function sayHello2(name) {
-      var text = 'Hello ' + name; // Local variable
-      var say = function() { console.log(text); }
-      return say;
-    }
-    var say2 = sayHello2('Bob');
-    say2(); // logs 'Hello Bob'
-
+```javascript
+function sayHello2(name) {
+  var text = 'Hello ' + name; // Local variable
+  var say = function() { console.log(text); }
+  return say;
+}
+var say2 = sayHello2('Bob');
+say2(); // logs 'Hello Bob'
+```
 Obiges Beispiel ist zugleich ein Beispiel von _Currying_ allerdings nur über ein Argument ;-)
 Somit sehen wir, dass JS für Funktionsreferenzen auch eine versteckte Referenz auf die Closure. Die Variablen werden nicht kopiert, sondern existieren im Original, solange die äussere Funktion existiert und damit auch die Referenz auf sie (Closure). Wenn die lokale Variable also noch irgendwie verändert wird vor dem referenzierten Closure-Aufruf, so kann sie sich noch ändern. Das kann kaum passieren, da es nur bei der Funktionsdefinition gemacht werden darf, zudem schützen die neuen Deklarationen `let` und `const` zusätzlich davor und machen den Code zudem besser lesbar und verständlicher.
 
 ## Immediately Invoked Function Expression (IIFE):
-
+```javascript
     (function count(){
       for (let i = 0; i < 10; i++)
         {console.log(i);}
     })()
     Die (häufig anonyme) Funktion wird gleich mit der Definition aufgerufen.
-
+```
     Variable-Hoisting
     function count(){
       for (var i = 0; i < 10; i++)
