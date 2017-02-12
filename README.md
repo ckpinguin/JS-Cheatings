@@ -10,7 +10,7 @@ Es ist eine Frage des persönlichen Geschmacks resp. Faulheit, ob man ; nutzt od
 ## prototype vs. __proto__
 
 ### prototype
-Nur Funktionen haben das accessor-property `prototype`. Es wird (vermutlich)  nur für die `new()` Funktionalität genutzt, weil es auf den jeweiligen `contstructor` der zu erzeugenden Klasse zeigt, welcher wiederum nichts anderes als die Funktionsdefinition mit dem Klassennamen ist. Damit werden Klassen simuliert mittels Funktionen.
+Nur Funktionen haben das _accessor-property_ `prototype`. Es wird (vermutlich)  nur für die `new()` Funktionalität genutzt, weil es auf den jeweiligen `contstructor` der zu erzeugenden Klasse zeigt, welcher wiederum nichts anderes als die Funktionsdefinition mit dem Klassennamen ist. Damit werden Klassen simuliert mittels Funktionen.
 #### Anwendungsbeispiel
 Erweiterung einer Funktion (resp. Fake-Klasse, da es nur eine Funktion mit grossem Anfangsbuchstaben ist) um weitere Methoden:
 
