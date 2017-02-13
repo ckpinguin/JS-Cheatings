@@ -100,6 +100,20 @@ data[0](); // 3, but not 0
 data[1](); // 3, but not 1
 data[2](); // 3, but not 2
 ```
+Das Problem lässt sich mit IIFE beheben (zusätzliches Scope-Objekt), was nicht sehr schön aussieht und kaum jemand sich merken kann. Seit ES6 gibt es _Block-Scope-Binding_ mit der `let` Deklaration als Abhilfe:
+```javascript
+let data = [];
+ 
+for (let k = 0; k < 3; k++) {
+  data[k] = function () {
+    console.log(k);
+  };
+}
+ 
+data[0](); // 0
+data[1](); // 1
+data[2](); // 2
+```
 
 ## Immediately Invoked Function Expression (IIFE)‣
 ```javascript
