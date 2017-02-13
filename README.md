@@ -15,7 +15,7 @@ Kurzdefinition: `__proto__` ist das Objekt, welches in der _Lookup chain_ benutz
 
 ### prototype
 Nur Funktionen haben das _accessor-property_ namens `prototype`. Es wird (vermutlich)  nur für die `new` Funktionalität genutzt, weil es auf den jeweiligen `contstructor` der zu erzeugenden Klasse zeigt, welcher wiederum nichts anderes als die Funktionsdefinition mit dem Klassennamen ist. Damit werden Klassen simuliert mittels Funktionen. Objekte, welche mit `new` erzeugt wurden, haben dieses Property nicht, aber ihr `__proto__` zeigt auf das entsprechende Objekt, z.B. `Foo.prototype`. Ein Bild kann vielleicht helfen in der Verwirrung: 
-![Contsructor Proto Chain (copyright by Dmitry Soshnikov)](https://github.com/ckpinguin/JS-Cheatings/blob/master/constructor-proto-chain.png "Contsructor Proto Chain (copyright by Dmitry Soshnikov), see http://dmitrysoshnikov.com/ecmascript/javascript-the-core/#constructor")
+![Contsructor Proto Chain (copyright by Dmitry Soshnikov)](https://github.com/ckpinguin/JS-Cheatings/blob/master/constructor-proto-chain.png "Contsructor Proto Chain (copyright by Dmitry Soshnikov), see: http://dmitrysoshnikov.com/ecmascript/javascript-the-core/#constructor")
 
 #### Anwendungsbeispiel
 Erweiterung einer Funktion (resp. Fake-Klasse, da es nur eine Funktion mit grossem Anfangsbuchstaben ist) um weitere Methoden:
@@ -194,7 +194,7 @@ var obj2 = {
     a: 3
 };
 var bar = foo.call(obj1);
-bar.call(obj2); // 2, not 3!
+bar.call(obj2); // 2, not 3! `this` is not overwritten!
 ```
 Dies wird vor allem in Callbacks wie Event handler und Timer genutzt.
 
