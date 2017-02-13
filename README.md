@@ -123,7 +123,7 @@ Vor ES6  müssen wir `this` strikt vom Variablen-Objekt (ebenfalls Teil des Exec
 ### Ab ES6 ###
 Ab ES6 ist `this` allerdings ein Teil des lexikalen Kontext und damit ein Property des _variables object_ vom Execution Context. Dies wurde gemacht, um die Pfeil-Operatoren von ES6 zu unterstützen.
 
-### Beispiel ###
+### Beispiel explizites `this`-Binding ###
 ```javascript
 function identify() {
     return this.name.toUpperCase();
@@ -146,7 +146,35 @@ identify.call(you); // A READER
 speak.call(me); // Hello, I am CHRIS
 speak.call(you); // Hello, I am A READER
 ```
-Die Funktion `call` nimmt (wie auch `apply`) als erstes Argument den gewünschten `this`-Kontext entgegen, womit die aufgerufene Funktion dann arbeitet.
+Die Funktion `call` nimmt (wie auch `apply`) als erstes Argument den gewünschten `this`-Kontext entgegen, womit die aufgerufene Funktion dann arbeitet. Dieses explizite Binden ist schon relativ sicher, jedoch kann der `this`-Kontext immer noch verlorengehen bei Callbacks, Events u.ä. Um es ganz sicher zu machen, nutzt man ein sogenanntes _hard explicit binding_ wie folgt (wiederverwendbares Beispiel):
+```javascript
+function foo(something) {
+    console.log(this.a, something);
+    return this.a + something;
+}
+
+// Simple `bind` helper
+function bind(fn, obj) {
+    return function() {
+        return fn.apply(obj, arguments);
+    };
+}
+
+var obj = {
+    a: 2
+};
+
+var bar = bind(foo, obj); 
+
+var b = bar(3); // 2 3
+console.log(b); // 5
+```
+Dieses Muster ist seit ES5 in `Function.prototype.bind` verfügbar für alle Funktionen. Ab ES6 wird noch das Property `name` für die Funktion gesetzt, womit die Bindung der Funktion abrufbar wird:
+```javascript
+var bar = foo.bind(obj);
+bar.name; // "bound foo"
+foo.name; // "foo"
+```
 
 ## Immediately Invoked Function Expression (IIFE)‣
 ```javascript
