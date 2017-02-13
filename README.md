@@ -198,6 +198,26 @@ bar.call(obj2); // 2, not 3! `this` is not overwritten!
 ```
 Dies wird vor allem in Callbacks wie Event handler und Timer genutzt.
 
+### Currying & Spreading mit `apply` & `bind`
+```javascript
+function foo(a,b) {
+    console.log('a:' + a + ', b:' + b);
+}
+
+// Spreading (With ES6 we have this as a own operator)
+foo.apply(null, [2, 3]); // a:2, b:3
+
+// Currying
+var bar = foot.bind(null, 2);
+bar(3); // a:2, b:3
+```
+#### Null-Objekt als `this` zur Sicherheit
+Damit beim Currying nicht irgendwie ein ungewolltes `this`-Binding reinkommt, sollte man anstall `null` ein eigens erzeugtes »Null-Objekt« nehmen:
+```javascript
+var zero = Object.create(null);
+```
+Durch die Verwendung von `Object.create()` wird ein komplett leeres Objekt erzeugt. Würde man nur `{}` nehmen, wäre das Objekt nicht ganz leer, denn es hätte noch eine Referenz nach `Object.prototype` im `__proto__`.
+
 ## Immediately Invoked Function Expression (IIFE)‣
 ```javascript
 (function count() {
