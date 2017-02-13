@@ -179,6 +179,24 @@ bar.name; // "bound foo"
 foo.name; // "foo"
 ```
 Anstatt den `this`-Kontext beim Aufruff (`call` resp. `apply`) mitzugeben, wird beim harten expliziten Binding die Funktion selber fest mit dem Kontext gebunden.
+### Beispiel lexikales `this`-Binding
+Ab ES6 wird der Pfeil-Operator für eine Kurzschreibweise von Funktionen angeboten. Dieser übernimmt für das `this`-Binding den Umgebungs-Scope (Funktion oder global):
+```javascript
+function foo() {
+    return (a) => {
+        console.log(this.a);
+    };
+}
+var obj1 = {
+    a: 2
+};
+var obj2 = {
+    a: 3
+};
+var bar = foo.call(obj1);
+bar.call(obj2); // 2, not 3!
+```
+Dies wird vor allem in Callbacks wie Event handler und Timer genutzt.
 
 ## Immediately Invoked Function Expression (IIFE)‣
 ```javascript
