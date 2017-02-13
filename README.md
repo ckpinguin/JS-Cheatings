@@ -69,12 +69,11 @@ Wir können auch ein Objekt ohne Referenz auf ein Objekt erstellen:
 ```javascript
 Object.create(null);
 ```
-Dies wird für sogenannte _Dictionaries_ gemacht, welche einfach nur Objekte mit Daten sind, also flache Datenspeicher ohne überraschende Nebeneffekte
-.
-## `this` Bindung
-TODO / TOLEARN
+Dies wird für sogenannte _Dictionaries_ gemacht, welche einfach nur Objekte mit Daten sind, also flache Datenspeicher ohne überraschende Nebeneffekte.
 
 ## (Lexical) Closures
+Closures sind Teil des sogenannten _Execution Context_ in JavaScript. Dieser Execution Context besteht aus mehreren Objekten, welche für jede aufgerufene Funktion auf einem Stack gelegt werden.
+
 In JavaScript kreiert man eine _Closure_ (Deutsch: Funktionsabschluss) indem man `function` innerhalb einer anderen `function` benutzt:
 ```javascript
 function sayHello2(name) {
@@ -113,6 +112,39 @@ for (let k = 0; k < 3; k++) {
 data[0](); // 0
 data[1](); // 1
 data[2](); // 2
+```
+
+## `this` Binding
+Wie die Closures ist auch `this` ein Teil des _Execution Context_. Es wird auch als _context object_ bezeichnet, weil es definiert in welchem Kontext die Ausführung (execution) aktiviert wurde (im Gegensatz zur Closure, die statisch/lexikalisch zum Deklarationszeitpunkt gesichert wird).
+
+### Vor ES6 ###
+Vor ES6  müssen wir `this` strikt vom Variablen-Objekt (ebenfalls Teil des Execution Context) unterscheiden. Es wird nicht zur üblichen Auflösung von Identifikatoren herangezogen (identifier resolution process). Wenn wir also beispielsweise `console.log(this.a)` schreiben, so greifen wir direkt und explizit auf das `this`-Objekt zu. Daher ist `a` niemals der gleiche Bezeichner wie `this.a` (ausser man weist dies entsprechend selber zu). `this` wird genau einmal definiert und zwar beim Eintreten in den Kontext.
+
+### Ab ES6 ###
+Ab ES6 ist `this` allerdings ein Teil des lexikalen Kontext und damit ein Property des _variables object_ vom Execution Context. Dies wurde gemacht, um die Pfeil-Operatoren von ES6 zu unterstützen.
+
+### Beispiel ###
+```javascript
+function identify() {
+    return this.name.toUpperCase();
+}
+function speak() {
+    var greeting = 'Hello, I am ' + identify.call(this);
+    console.log(greeting);
+}
+var me = {
+    name: 'Chris'
+};
+var you = {
+    name: 'A reader'
+};
+
+// identify.apply(me) would also work (differs in 2nd arg which we don't use here)
+identify.call(me); // CHRIS
+identify.call(you); // A READER
+
+speak.call(me); // Hello, I am CHRIS
+speak.call(you); // Hello, I am A READER
 ```
 
 ## Immediately Invoked Function Expression (IIFE)‣
