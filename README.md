@@ -101,7 +101,7 @@ data[1](); // 3, but not 1
 data[2](); // 3, but not 2
 ```
 
-## Immediately Invoked Function Expression (IIFE):
+## Immediately Invoked Function Expression (IIFE)‣
 ```javascript
 (function count() {
     for (let i = 0; i < 10; i++) {
