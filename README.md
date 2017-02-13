@@ -1,5 +1,5 @@
 # JS-Learnings/Cheatings
-My personal JS-Cheatsheet reflecting my learnings about the nuts & bolts of JS/ECMA whatever you prefer calling it. It is currently in German, because that better stuffs in my brain.
+My personal JS-Cheatsheet reflecting my learnings about the nuts & bolts of JS/ECMA whatever you prefer calling it. It is currently in German, because that fits better in my brain.
 A lot of credit for my understanding of JS goes to the »[You Don't Know JS](https://github.com/getify/You-Dont-Know-JS/blob/master/README.md)« book series as well as mpjme's Youtube-Series »[funfunfunction](https://www.youtube.com/channel/UCO1cgjhGzsSYb1rsB4bFe4Q)«. Also not to forget [Mozilla's really great »MDN« JavaScript Documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
 
 If you need a really professional short-oversight of core Javasript, look here http://dmitrysoshnikov.com/ecmascript/javascript-the-core/
