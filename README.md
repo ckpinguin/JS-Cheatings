@@ -86,7 +86,7 @@ var say2 = sayHello2('Bob');
 say2(); // logs 'Hello Bob'
 ```
 Obiges Beispiel ist zugleich ein Beispiel von _Currying_ allerdings nur über ein Argument ;-)
-Somit sehen wir, dass JS für Funktionsreferenzen auch eine versteckte Referenz auf die Closure. Die Variablen werden nicht kopiert, sondern existieren im Original, solange die äussere Funktion existiert und damit auch die Referenz auf sie (Closure). Wenn die lokale Variable also noch irgendwie verändert wird vor dem referenzierten Closure-Aufruf, so kann sie sich noch ändern. Das kann kaum passieren, da es nur bei der Funktionsdefinition gemacht werden darf, zudem schützen die neuen Deklarationen `let` und `const` zusätzlich davor und machen den Code zudem besser lesbar und verständlicher.
+Somit sehen wir, dass JS für Funktionsreferenzen auch eine versteckte Referenz auf die Closure. Die Variablen werden nicht kopiert, sondern existieren im Original, solange die äussere Funktion existiert und damit auch die Referenz auf sie (Closure). Exakt zum Zeitpunkt der Erstellung sichert die Funktion die sogeanannte _scope chain_ ihres Eltern-Scopes (z.B. die umgebende Funktion). Wenn die lokale Variable also noch irgendwie verändert wird vor dem `return say` also dem zurückgeben der inneren Funktion, so kann sie sich noch ändern. Das kann kaum passieren, da es nur bei der Funktionsdefinition gemacht werden darf, zudem schützen die neuen Deklarationen `let` und `const` zusätzlich davor und machen den Code zudem besser lesbar und verständlicher.
 
 ## Immediately Invoked Function Expression (IIFE):
 ```javascript
