@@ -86,7 +86,20 @@ var say2 = sayHello2('Bob');
 say2(); // logs 'Hello Bob'
 ```
 Obiges Beispiel ist zugleich ein Beispiel von _Currying_ allerdings nur über ein Argument ;-)
-Somit sehen wir, dass JS für Funktionsreferenzen auch eine versteckte Referenz auf die Closure. Die Variablen werden nicht kopiert, sondern existieren im Original, solange die äussere Funktion existiert und damit auch die Referenz auf sie (Closure). Exakt zum Zeitpunkt der Erstellung sichert die Funktion die sogeanannte _scope chain_ ihres Eltern-Scopes (z.B. die umgebende Funktion). Damit hat eine Closure auch auf freie Variablen (d.h. keine Parameter oder eigene Properties, sondern Variablen in äusseren bis hin zum globalen Scope). Wenn allerdings in obigem Beispiel die lokale Variable also noch irgendwie verändert wird vor dem `return say` also dem zurückgeben der inneren Funktion, so kann sie sich noch ändern. Das kann kaum passieren, da es nur bei der Funktionsdefinition gemacht werden darf, zudem schützen die neuen Deklarationen `let` und `const` zusätzlich davor und machen den Code zudem besser lesbar und verständlicher.
+Somit sehen wir, dass JS für Funktionsreferenzen auch eine versteckte Referenz auf die Closure. Die Variablen werden nicht kopiert, sondern existieren im Original, solange die äussere Funktion existiert und damit auch die Referenz auf sie (Closure). Exakt zum Zeitpunkt der Erstellung sichert die Funktion die sogeanannte _scope chain_ ihres Eltern-Scopes (z.B. die umgebende Funktion). Damit hat eine Closure auch auf freie Variablen (d.h. keine Parameter oder eigene Properties, sondern Variablen in äusseren bis hin zum globalen `[[Scope]]`). Wenn allerdings in obigem Beispiel die lokale Variable also noch irgendwie verändert wird vor dem `return say` also dem zurückgeben der inneren Funktion, so kann sie sich noch ändern. Das kann kaum passieren, da es nur bei der Funktionsdefinition gemacht werden darf, zudem schützen die neuen Deklarationen `let` und `const` zusätzlich davor und machen den Code zudem besser lesbar und verständlicher. Da jede normale Funktion zum Deklarationszeitpunk ihren `[[Scope]]` speichert, kann man sogar sagen, dass in JavaScript alle Funktionen Closures sind. Die Frage ist nur, ob man so eine Closure später nutzt oder nicht. Wenn mehrere Funktionen denselben `[[Scope]]` haben, wird er gemeinsam genutzt. Das kann zu Problemen führen, wie einige Diskussionen auf Stackoverflow zeigen. Wenn man die gemeinsame Scope-Referenzierung im Kopf behält, versteht man die Ursache jedoch besser. Die letzte Funktionsdefinition in der `for`-Schleife läuft im Scope mit `k=3` (letzter Schleifendurchgang). Der Scope gilt aber genauso für alle im Loop definierten Funktionen!
+```javascript
+var data = [];
+ 
+for (var k = 0; k < 3; k++) {
+  data[k] = function () {
+    console.log(k);
+  };
+}
+ 
+data[0](); // 3, but not 0
+data[1](); // 3, but not 1
+data[2](); // 3, but not 2
+```
 
 ## Immediately Invoked Function Expression (IIFE):
 ```javascript
