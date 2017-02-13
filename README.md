@@ -74,7 +74,7 @@ Dies wird für sogenannte _Dictionaries_ gemacht, welche einfach nur Objekte mit
 ## `this` Bindung
 TODO / TOLEARN
 
-## Closures
+## (Lexical) Closures
 In JavaScript kreiert man eine _Closure_ (Deutsch: Funktionsabschluss) indem man `function` innerhalb einer anderen `function` benutzt:
 ```javascript
 function sayHello2(name) {
