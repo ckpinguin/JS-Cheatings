@@ -8,7 +8,7 @@ If this page becomes a useful cheatsheet (at least for me), I might try to trans
 
 ## Semikolons?
 Was viele nicht wissen: JS fügt automatisch Semikolons hinzu! Das führt i.d.R. zu keinen Problemen, ausser: wenn eine öffnende Klammer am Anfang einer Linie steht (kann z.B. passieren, wenn eine [_IIFE_](https://github.com/ckpinguin/JS-Cheatings/blob/master/README.md#immediately-invoked-function-expression-iife) verwendet wird).
-Es ist eine Frage des persönlichen Geschmacks resp. Faulheit, ob man ; nutzt oder nicht.
+Es ist eine Frage des persönlichen Geschmacks resp. Faulheit, ob man ; setzt oder nicht.
 
 ## prototype vs. `__proto__`
 Kurzdefinition: `__proto__` ist das Objekt, welches in der _Lookup chain_ benutzt wird, um Methoden, Properties etc. aufzulösen. `prototype` hingegen ist das Objekt, welches dazu benutzt wird, den `__proto__` zu erstellen, wenn ein Object mit `new` kreiert wird.
