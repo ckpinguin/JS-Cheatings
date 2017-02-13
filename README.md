@@ -14,7 +14,8 @@ Es ist eine Frage des persönlichen Geschmacks resp. Faulheit, ob man ; setzt od
 Kurzdefinition: `__proto__` ist das Objekt, welches in der _Lookup chain_ benutzt wird, um Methoden, Properties etc. aufzulösen. `prototype` hingegen ist das Objekt, welches dazu benutzt wird, den `__proto__` zu erstellen, wenn ein Object mit `new` kreiert wird.
 
 ### prototype
-Nur Funktionen haben das _accessor-property_ namens `prototype`. Es wird (vermutlich)  nur für die `new` Funktionalität genutzt, weil es auf den jeweiligen `contstructor` der zu erzeugenden Klasse zeigt, welcher wiederum nichts anderes als die Funktionsdefinition mit dem Klassennamen ist. Damit werden Klassen simuliert mittels Funktionen. Objekte, welche mit `new` erzeugt wurden, haben dieses Property nicht, aber ihr `__proto__` zeigt auf das entsprechende Objekt, z.B. `Foo.prototype`.
+Nur Funktionen haben das _accessor-property_ namens `prototype`. Es wird (vermutlich)  nur für die `new` Funktionalität genutzt, weil es auf den jeweiligen `contstructor` der zu erzeugenden Klasse zeigt, welcher wiederum nichts anderes als die Funktionsdefinition mit dem Klassennamen ist. Damit werden Klassen simuliert mittels Funktionen. Objekte, welche mit `new` erzeugt wurden, haben dieses Property nicht, aber ihr `__proto__` zeigt auf das entsprechende Objekt, z.B. `Foo.prototype`. Ein Bild kann vielleicht helfen in der Verwirrung: 
+
 
 #### Anwendungsbeispiel
 Erweiterung einer Funktion (resp. Fake-Klasse, da es nur eine Funktion mit grossem Anfangsbuchstaben ist) um weitere Methoden:
