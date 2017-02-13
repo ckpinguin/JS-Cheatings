@@ -115,7 +115,7 @@ data[2](); // 2
 ```
 
 ## `this` Binding
-Wie die Closures ist auch `this` ein Teil des _Execution Context_. Es wird auch als _context object_ bezeichnet, weil es definiert in welchem Kontext die Ausführung (execution) aktiviert wurde (im Gegensatz zur Closure, die statisch/lexikalisch zum Deklarationszeitpunkt gesichert wird).
+Wie die Closures ist auch `this` ein Teil des _Execution Context_. Es wird auch als _context object_ bezeichnet, weil es definiert in welchem Kontext die Ausführung (execution) aktiviert wurde (im Gegensatz zur Closure, die statisch/lexikalisch zum Deklarationszeitpunkt gesichert wird). Merke: `this` ist keine Referenz auf die Funktion selbst (wie ein gedachtes self o.ä.) und ebensowenig eine Referenz auf den lexikalen Scope.
 
 ### Vor ES6 ###
 Vor ES6  müssen wir `this` strikt vom Variablen-Objekt (ebenfalls Teil des Execution Context) unterscheiden. Es wird nicht zur üblichen Auflösung von Identifikatoren herangezogen (identifier resolution process). Wenn wir also beispielsweise `console.log(this.a)` schreiben, so greifen wir direkt und explizit auf das `this`-Objekt zu. Daher ist `a` niemals der gleiche Bezeichner wie `this.a` (ausser man weist dies entsprechend selber zu). `this` wird genau einmal definiert und zwar beim Eintreten in den Kontext.
@@ -146,6 +146,7 @@ identify.call(you); // A READER
 speak.call(me); // Hello, I am CHRIS
 speak.call(you); // Hello, I am A READER
 ```
+Die Funktion `call` nimmt (wie auch `apply`) als erstes Argument den gewünschten `this`-Kontext entgegen, womit die aufgerufene Funktion dann arbeitet.
 
 ## Immediately Invoked Function Expression (IIFE)‣
 ```javascript
