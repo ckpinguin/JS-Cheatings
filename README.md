@@ -146,6 +146,7 @@ identify.call(you); // A READER
 speak.call(me); // Hello, I am CHRIS
 speak.call(you); // Hello, I am A READER
 ```
+### Beispiel hartes explizites `this`-Binding
 Die Funktion `call` nimmt (wie auch `apply`) als erstes Argument den gewünschten `this`-Kontext entgegen, womit die aufgerufene Funktion dann arbeitet. Dieses explizite Binden ist schon relativ sicher, jedoch kann der `this`-Kontext immer noch verlorengehen bei Callbacks, Events u.ä. Um es ganz sicher zu machen, nutzt man ein sogenanntes _hard explicit binding_ wie folgt (wiederverwendbares Beispiel):
 ```javascript
 function foo(something) {
@@ -175,6 +176,7 @@ var bar = foo.bind(obj);
 bar.name; // "bound foo"
 foo.name; // "foo"
 ```
+Anstatt den `this`-Kontext beim Aufruff (`call` resp. `apply`) mitzugeben, wird beim harten expliziten Binding die Funktion selber fest mit dem Kontext gebunden.
 
 ## Immediately Invoked Function Expression (IIFE)‣
 ```javascript
