@@ -28,6 +28,8 @@ Info: `Function` (das Objekt) hat `function` (die JS-Primitive) als `prototype`,
 Vererbung wird bspw. mit `Button.prototype = Object.create(Widget.prototype)` simuliert und benötigt vor ES6 übel aussehende Hacks bez. `call()` und `apply()` für `super()`-Aufrufe oder überschriebene Methoden. Dass dies ab ES6 mit einfacherer Syntax funktioniert löst nicht das eigentliche Problem, dass die OO-Programmierung resp. Klassenorientierung in JS künstlich aufgesetzt ist.
 
 #### `prototype.constructor`?
+Ein Merksatz vorausgeschickt: Es gibt in JavaScript keine Konstruktoren oder Konstruktor-Funktionen. Es gibt nur normale Funktionen, die per `new` aufgerufen (oder besser: hijacked?) werden, also _constructor calls_.
+
 `prototype.constructor` ist nichts weiter als eine Referenz zu der Funktion, welche per `new` ein Objekt „konstruierte“ (das trifft nicht in allen Fällen zu, also wieder ein relativ unbrauchbares „Feature“, um Klassen zu faken):
 ```javascript
 function Foo() {
