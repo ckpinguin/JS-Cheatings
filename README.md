@@ -6,8 +6,13 @@ If you need a really professional short-oversight of core Javasript, look here h
 
 If this page becomes a useful cheatsheet (at least for me), I might try to translate in to English in the future God willing...
 
+# Vererbung vs. Komposition => always use the composition paradigma
+Um es kurz zu machen: Man sollte immer Objekt-Komposition verwenden also _OOLO_ (_Objects Link to Other Objects_). Vererbung ist ein künstlich aufgesetztes Konzept in JavaScript, um mehr »klassische« OO-Programmierer anzulocken. Das Thema hier in aller Kürze auszuführen, dürfte schwierig werden, vielleicht später ;-)
+## Function overwriting => don't do it
+Auch in der Komposition können in der sogenannten _``[[Prototype]]``-chain_ Funktionen/Methoden überschrieben werden. Das solltem man möglichst nie tun! Stattdessen soll jede Funktion eine wohldefinierte Aufgabe erledigen und dies soll sich auch in ihrem Namen widerspiegeln.
+
 ## Semikolons?
-Was viele nicht wissen: JS fügt automatisch Semikolons hinzu! Das führt i.d.R. zu keinen Problemen, ausser: wenn eine öffnende Klammer am Anfang einer Linie steht (kann z.B. passieren, wenn eine [_IIFE_](https://github.com/ckpinguin/JS-Cheatings/blob/master/README.md#immediately-invoked-function-expression-iife) verwendet wird).
+Was viele nicht wissen: JS fügt automatisch fehlende Semikolons hinzu! Das führt i.d.R. zu keinen Problemen, ausser: wenn eine öffnende Klammer am Anfang einer Linie steht (kann z.B. passieren, wenn eine [_IIFE_](https://github.com/ckpinguin/JS-Cheatings/blob/master/README.md#immediately-invoked-function-expression-iife) verwendet wird).
 Es ist eine Frage des persönlichen Geschmacks resp. Faulheit, ob man ; setzt oder nicht.
 
 ## prototype vs. `__proto__`
