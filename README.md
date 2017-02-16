@@ -144,7 +144,9 @@ const baz = Object.create(bar);
 console.log(baz instanceof foo); // true. oops.
 ```
 ## (Lexical) Closures
-Closures (dt. »Funktions-Abschluss«)  ist die Kombination einer Funktion zusammengepackt (enclosed) mit Referenzen zum Status ihrer Umgebung (lexical environment). Eine Closure gibt uns Zugriff auf den Scope der äusseren Funktion von einer inneren Funktion aus. In JavaScript wird immer eine Closure erzeugt zum Zeitpunkt, wenn eine Funktion erzeugt wird. Closures sind Teil des sogenannten _Execution Context_ in JavaScript. Dieser Execution Context besteht aus mehreren Objekten, welche für jede aufgerufene Funktion auf einem Stack gelegt werden.
+Definition: Closures (dt. »Funktions-Abschluss«)  ist die Kombination einer Funktion zusammengepackt (enclosed) mit Referenzen zum Status ihrer Umgebung (lexical environment). Eine Closure gibt uns Zugriff auf den Scope der äusseren Funktion von einer inneren Funktion aus. In JavaScript wird immer eine Closure erzeugt zum Zeitpunkt, wenn eine Funktion erzeugt wird. Man nutzt sie aktiv, indem man eine Funktion innerhalb einer anderen Funktion definiert. Damit hat man Zugriff auf die Umgebung der äusseren Funktion, auch wenn diese schon längst zurückgekehrt ist. 
+
+Closures sind Teil des sogenannten _Execution Context_ in JavaScript. Dieser Execution Context besteht aus mehreren Objekten, welche für jede aufgerufene Funktion auf einem Stack gelegt werden.
 
 In JavaScript kreiert man eine _Closure_ (Deutsch: Funktionsabschluss) indem man `function` innerhalb einer anderen `function` benutzt:
 ```javascript
