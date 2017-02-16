@@ -50,6 +50,14 @@ Hier werden wir allerdings hinters Licht geführt, denn das Objekt `a` besitzt k
 Fazit: Hier wurde also keine Klasse instanziert oder ein Objekt aus einer „Vorlage“ kopiert, aber die Semantik von `new` und `class` etc. versuchen, genau dies vorzuspiegeln. Ein Grund dafür, dass ES6 all dies offiziell unterstützt ist sicherlich, dass die meisten Programmierer in Objektorientierung ausgebildet wurden und mit der Delegation und Functional Programming vorerst nicht viel anfangen können (ich gehörte auch dazu). Wir sollten besser _Factory-Funktionen_ benutzen. Sie sind einfach Konstruktor-Funktionen ohne `new`-Zwang und ohne die Gefahr, dass Elemente wie `this` usw. plötzlich global neu definiert werden, wenn _strict mode_ nicht genutzt wird.
 [Dan Abramov's pragrmatischer Ansatz](https://medium.com/@dan_abramov/how-to-use-classes-and-sleep-at-night-9af8de78ccb4#.1ftpmlpau) in dieser Diskussion: Nutze Klassen, wenn Du musst, z.B. in React.js aber generiere auf keinen Fall Hierarchien damit und rufe niemals `super()` auf!
 
+### `̲__proto__`
+Jedes Objekt (ausser Object) hat das `__proto__` Property. Dabei handelt es sich um das Zentrum des sogenannten _`[[Prototype]]`-Delegation_ oder auch _Behaviour-Delegation_-Mechanismus von JS. Es zeigt auf das jeweils gelinkte Objekt eines Objekts.
+So kann eine Link-Kette entstehen, die in jedem Fall bei `Object` endet, welches einige Standardproperties und Funktionalitäten anbietet; wie eben `__proto__`, welches ganz genau gesehen Teil des `Object`-Prototyps ist: `Object.prototype.__proto__`, d.h. es ist eine Methode von Object. Durch das lexikale `this`-Binding von Javascript wird immer der Aufrufkontext in `this` gebunden, wodurch die Behaviour-Delegation sehr elegant brauchbar wird. Interessanterweise zeigt `__proto__` von Object und Function jeweils auf `function` (alles Kleinbuchstaben), womit gezeigt ist, dass JS tatsächlich eine rein „funktionale“ Sprache ist, die man aber auch als „Objektorientiert“ im richtigen Sinn (Objekte, keine Klassen!) bezeichnen darf.
+State (Variablen) sollte immer in den delegierenden Objekten sein, nicht in den „Empfänger“-Objekten. Programmatisch kann man `__proto__` mit `Object.getPrototypeOf(obj)` sowie `Object.isPrototypeOf(obj, proto)` und `Object.setPrototypeOf(obj, proto)` nutzen. Laut »You Dont't Know JS« Büchern ist der Begriff _OOLO_ (_Objects Link to Other Objects_) angezeigt, um das komplett von _OO_ verschiedene Design zu bezeichnen.
+
+## 3 types of prototypal inheritance
+Credit goes to [Eric Elliott](https://medium.com/javascript-scene/3-different-kinds-of-prototypal-inheritance-es6-edition-32d777fa16c9#.laor60hxv)
+
 ### Factory functions
 Factory-Funktionen sind die bessere Alternative zu Konstruktor-Funktionsaufrufen. Das `this`-Binding ist korrekt (niemals versehentlich global) und man wird nicht zum Verwenden von `new` gezwungen.
 ```
@@ -73,11 +81,25 @@ const george = greeter('george');
 // Using the prototype function on the generated object
 console.log( george.hello() );
 ```
+### Mixin style
+```
+const proto = {
+  hello: function hello() {
+    return `Hello, my name is ${ this.name }`;
+  }
+};
 
-### `̲__proto__`
-Jedes Objekt (ausser Object) hat das `__proto__` Property. Dabei handelt es sich um das Zentrum des sogenannten _`[[Prototype]]`-Delegation_ oder auch _Behaviour-Delegation_-Mechanismus von JS. Es zeigt auf das jeweils gelinkte Objekt eines Objekts.
-So kann eine Link-Kette entstehen, die in jedem Fall bei `Object` endet, welches einige Standardproperties und Funktionalitäten anbietet; wie eben `__proto__`, welches ganz genau gesehen Teil des `Object`-Prototyps ist: `Object.prototype.__proto__`, d.h. es ist eine Methode von Object. Durch das lexikale `this`-Binding von Javascript wird immer der Aufrufkontext in `this` gebunden, wodurch die Behaviour-Delegation sehr elegant brauchbar wird. Interessanterweise zeigt `__proto__` von Object und Function jeweils auf `function` (alles Kleinbuchstaben), womit gezeigt ist, dass JS tatsächlich eine rein „funktionale“ Sprache ist, die man aber auch als „Objektorientiert“ im richtigen Sinn (Objekte, keine Klassen!) bezeichnen darf.
-State (Variablen) sollte immer in den delegierenden Objekten sein, nicht in den „Empfänger“-Objekten. Programmatisch kann man `__proto__` mit `Object.getPrototypeOf(obj)` sowie `Object.isPrototypeOf(obj, proto)` und `Object.setPrototypeOf(obj, proto)` nutzen. Laut »You Dont't Know JS« Büchern ist der Begriff _OOLO_ (_Objects Link to Other Objects_) angezeigt, um das komplett von _OO_ verschiedene Design zu bezeichnen.
+// Here we copy the proto properties instead of referencing them
+const george = Object.assign({}, proto, {name: 'George'});
+
+const msg = george.hello();
+
+console.log(msg);
+```
+Dies ist nützlich, wenn ein State verwendet wird im Prototyp, denn bei der Referenzierung würde immer der Prototyp selber verändert werden. Hier hingegen wird alles kopiert und pro Objekt geführt. So kann nun jedes beliebige Objekt per Mixin in ein anderes verwandelt werden, z.B. indem ein Event-Emitter-Object hineingemixt resp. -kopiert wird. Das wäre mit `[[Prototype]]`-Delegation nicht so einfach möglich, weil in einem Event-Emitter Stati genutzt werden.
+
+### Functional Inheritance
+Man nutzt hier eine Funktion anstatt eines Objekts zur Erweiterung. Eine Funktion ist per Definition eine Closure somit erhalten wir damit private Stati.
 
 ## (Behaviour)-Delegation & `[[Prototype]]`
 `[[Prototype]]` ist eine Bezeichnung aus der ECMA-Spezifikation. Es handelt sich um eine simple __Referenz zu einem anderen Objekt__. Jedes Objekt erhält so eine Referenz zu seiner Erstellungszeit (Ausnahmen sind möglich aber selten). Durch diese Referenz wird Funktionalität resp. Verhalten (Behaviour) delegiert an andere gleichberechtigte Objekte. Es gibt im Gegensatz zu OO-Sprachen keine Eltern-Kind-Beziehung! Wenn ein Property resp. eine Methode eines Objektes aufgerufen wird und dieses in diesem Objekt nicht direkt auffindbar ist, wird automatisch sein `[[Prototype]]` durchsucht. Dieses Objekt hat wiederum einen `[[Prototype]]` gesetzt usw. So entsteht eine Delegationskette bis zu `Object.prototype`, wo einige grundsätzliche Methoden und Properties definiert sind. Beispiel:
@@ -122,7 +144,7 @@ const baz = Object.create(bar);
 console.log(baz instanceof foo); // true. oops.
 ```
 ## (Lexical) Closures
-Closures sind Teil des sogenannten _Execution Context_ in JavaScript. Dieser Execution Context besteht aus mehreren Objekten, welche für jede aufgerufene Funktion auf einem Stack gelegt werden.
+Closures (dt. »Funktions-Abschluss«)  ist die Kombination einer Funktion zusammengepackt (enclosed) mit Referenzen zum Status ihrer Umgebung (lexical environment). Eine Closure gibt uns Zugriff auf den Scope der äusseren Funktion von einer inneren Funktion aus. In JavaScript wird immer eine Closure erzeugt zum Zeitpunkt, wenn eine Funktion erzeugt wird. Closures sind Teil des sogenannten _Execution Context_ in JavaScript. Dieser Execution Context besteht aus mehreren Objekten, welche für jede aufgerufene Funktion auf einem Stack gelegt werden.
 
 In JavaScript kreiert man eine _Closure_ (Deutsch: Funktionsabschluss) indem man `function` innerhalb einer anderen `function` benutzt:
 ```javascript
