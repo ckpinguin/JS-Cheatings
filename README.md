@@ -1,3 +1,38 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [JS-Learnings/Cheatings](#js-learningscheatings)
+- [Vererbung vs. Komposition/Delegation => always use the composition/delegation paradigma](#vererbung-vs-kompositiondelegation--always-use-the-compositiondelegation-paradigma)
+  - [Function overwriting => don't do it](#function-overwriting--dont-do-it)
+  - [Semikolons?](#semikolons)
+  - [prototype vs. `__proto__`](#prototype-vs-__proto__)
+    - [prototype](#prototype)
+      - [Anwendungsbeispiel](#anwendungsbeispiel)
+      - [`prototype.constructor`?](#prototypeconstructor)
+    - [`̲__proto__`](#%CC%B2__proto__)
+  - [3 types of prototypal inheritance](#3-types-of-prototypal-inheritance)
+    - [Factory functions](#factory-functions)
+    - [Mixin style](#mixin-style)
+    - [Functional Inheritance](#functional-inheritance)
+  - [(Behaviour)-Delegation & `[[Prototype]]`](#behaviour-delegation--prototype)
+  - [`new` vs. `Object.create()` resp. `Object.create()` vs. `Object.setPrototypeOf()`](#new-vs-objectcreate-resp-objectcreate-vs-objectsetprototypeof)
+  - [`instanceof`](#instanceof)
+  - [(Lexical) Closures](#lexical-closures)
+    - [Beispiel: Closures für private Daten](#beispiel-closures-f%C3%BCr-private-daten)
+  - [`this` Binding](#this-binding)
+    - [Vor ES6](#vor-es6)
+    - [Ab ES6](#ab-es6)
+    - [Beispiel explizites `this`-Binding](#beispiel-explizites-this-binding)
+    - [Beispiel hartes explizites `this`-Binding](#beispiel-hartes-explizites-this-binding)
+    - [Beispiel lexikales `this`-Binding](#beispiel-lexikales-this-binding)
+    - [Currying & Spreading mit `apply` & `bind`](#currying--spreading-mit-apply--bind)
+      - [Null-Objekt als `this` zur Sicherheit](#null-objekt-als-this-zur-sicherheit)
+  - [Immediately Invoked Function Expression (IIFE)‣](#immediately-invoked-function-expression-iife%E2%80%A3)
+  - [Variable-Hoisting](#variable-hoisting)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # JS-Learnings/Cheatings
 My personal JS-Cheatsheet reflecting my learnings about the nuts & bolts of JS/ECMA whatever you prefer calling it. It is currently in German, because that fits better in my brain.
 A lot of credit for my understanding of JS goes to the »[You Don't Know JS](https://github.com/getify/You-Dont-Know-JS/blob/master/README.md)« book series as well as mpjme's Youtube-Series »[funfunfunction](https://www.youtube.com/channel/UCO1cgjhGzsSYb1rsB4bFe4Q)«. Also not to forget [Mozilla's really great »MDN« JavaScript Documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
