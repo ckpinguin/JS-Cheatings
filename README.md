@@ -204,7 +204,7 @@ data[0](); // 3, but not 0
 data[1](); // 3, but not 1
 data[2](); // 3, but not 2
 ```
-Das Problem lässt sich mit IIFE beheben (zusätzliches Scope-Objekt), was nicht sehr schön aussieht und kaum jemand sich merken kann. Seit ES6 gibt es _Block-Scope-Binding_ mit der `let` Deklaration als Abhilfe:
+Das Problem lässt sich mit _IIFE_ beheben (zusätzliches Scope-Objekt), was nicht sehr schön aussieht und kaum jemand sich merken kann. Seit ES6 gibt es _Block-Scope-Binding_ mit der `let` Deklaration als Abhilfe:
 ```javascript
 let data = [];
  
@@ -217,6 +217,32 @@ for (let k = 0; k < 3; k++) {
 data[0](); // 0
 data[1](); // 1
 data[2](); // 2
+```
+### Beispiel: Closures für private Daten
+```javascript
+const getSecret = (secret) => {
+    return {
+      get: () => secret
+    };
+};
+
+test('Closure for object privacy.', assert => {
+    const msg = '.get() should have access to the closure.';
+    const expected = 1;
+    const obj = getSecret(1);
+
+    const actual = obj.get();
+
+    try {
+      assert.ok(secret, 'This throws an error.');
+    } catch (e) {
+      assert.ok(true, `The secret var is only available
+        to privileged methods.`);
+    }
+
+    assert.equal(actual, expected, msg);
+    assert.end();
+});
 ```
 
 ## `this` Binding
