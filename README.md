@@ -50,6 +50,29 @@ Hier werden wir allerdings hinters Licht geführt, denn das Objekt `a` besitzt k
 Fazit: Hier wurde also keine Klasse instanziert oder ein Objekt aus einer „Vorlage“ kopiert, aber die Semantik von `new` und `class` etc. versuchen, genau dies vorzuspiegeln. Ein Grund dafür, dass ES6 all dies offiziell unterstützt ist sicherlich, dass die meisten Programmierer in Objektorientierung ausgebildet wurden und mit der Delegation und Functional Programming vorerst nicht viel anfangen können (ich gehörte auch dazu). Wir sollten besser _Factory-Funktionen_ benutzen. Sie sind einfach Konstruktor-Funktionen ohne `new`-Zwang und ohne die Gefahr, dass Elemente wie `this` usw. plötzlich global neu definiert werden, wenn _strict mode_ nicht genutzt wird.
 [Dan Abramov's pragrmatischer Ansatz](https://medium.com/@dan_abramov/how-to-use-classes-and-sleep-at-night-9af8de78ccb4#.1ftpmlpau) in dieser Diskussion: Nutze Klassen, wenn Du musst, z.B. in React.js aber generiere auf keinen Fall Hierarchien damit und rufe niemals `super()` auf!
 
+### Factory functions
+Factory-Funktionen sind die bessere Alternative zu Konstruktor-Funktionsaufrufen. Das `this`-Binding ist korrekt (niemals versehentlich global) und man wird nicht zum Verwenden von `new` gezwungen.
+```
+// The prototype
+const proto = {
+  hello () {
+    return `Hello, my name is ${ this.name }`;
+  }
+};
+
+// The factory
+// Simplified variant using ES6 fat-arrow function syntax
+const greeter = (name) => Object.assign(Object.create(proto), {
+  name
+});
+
+// Using the factory
+const george = greeter('george');
+
+// Using the prototype function on the generated object
+console.log( george.hello() );
+```
+
 ### `̲__proto__`
 Jedes Objekt (ausser Object) hat das `__proto__` Property. Dabei handelt es sich um das Zentrum des sogenannten _`[[Prototype]]`-Delegation_ oder auch _Behaviour-Delegation_-Mechanismus von JS. Es zeigt auf das jeweils gelinkte Objekt eines Objekts.
 So kann eine Link-Kette entstehen, die in jedem Fall bei `Object` endet, welches einige Standardproperties und Funktionalitäten anbietet; wie eben `__proto__`, welches ganz genau gesehen Teil des `Object`-Prototyps ist: `Object.prototype.__proto__`, d.h. es ist eine Methode von Object. Durch das lexikale `this`-Binding von Javascript wird immer der Aufrufkontext in `this` gebunden, wodurch die Behaviour-Delegation sehr elegant brauchbar wird. Interessanterweise zeigt `__proto__` von Object und Function jeweils auf `function` (alles Kleinbuchstaben), womit gezeigt ist, dass JS tatsächlich eine rein „funktionale“ Sprache ist, die man aber auch als „Objektorientiert“ im richtigen Sinn (Objekte, keine Klassen!) bezeichnen darf.
