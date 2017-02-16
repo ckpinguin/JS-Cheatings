@@ -60,19 +60,19 @@ Credit goes to [Eric Elliott](https://medium.com/javascript-scene/3-different-ki
 
 ### Factory functions
 Factory-Funktionen sind die bessere Alternative zu Konstruktor-Funktionsaufrufen. Das `this`-Binding ist korrekt (niemals versehentlich global) und man wird nicht zum Verwenden von `new` gezwungen.
-```
+```javascript
 // The prototype
 const proto = {
-  hello () {
-    return `Hello, my name is ${ this.name }`;
-  }
+    hello () {
+        return `Hello, my name is ${ this.name }`;
+    }
 };
 
 // The factory
 // Simplified variant using ES6 fat-arrow function syntax
 // Property delegation to `proto` can be used with `Object.create(proto)`
 const greeter = (name) => Object.assign(Object.create(proto), {
-  name
+    name
 });
 
 // Using the factory
@@ -82,11 +82,11 @@ const george = greeter('george');
 console.log( george.hello() );
 ```
 ### Mixin style
-```
+```javascript
 const proto = {
-  hello: function hello() {
-    return `Hello, my name is ${ this.name }`;
-  }
+    hello: function hello() {
+        return `Hello, my name is ${ this.name }`;
+    }
 };
 
 // Here we copy the proto properties instead of referencing them
@@ -99,7 +99,38 @@ console.log(msg);
 Dies ist nützlich, wenn ein State verwendet wird im Prototyp, denn bei der Referenzierung würde immer der Prototyp selber verändert werden. Hier hingegen wird alles kopiert und pro Objekt geführt. So kann nun jedes beliebige Objekt per Mixin in ein anderes verwandelt werden, z.B. indem ein Event-Emitter-Object hineingemixt resp. -kopiert wird. Das wäre mit `[[Prototype]]`-Delegation nicht so einfach möglich, weil in einem Event-Emitter Stati genutzt werden.
 
 ### Functional Inheritance
-Man nutzt hier eine Funktion anstatt eines Objekts zur Erweiterung. Eine Funktion ist per Definition eine Closure somit erhalten wir damit private Stati.
+Man nutzt hier eine Funktion anstatt eines Objekts zur Erweiterung. Eine Funktion ist per Definition eine Closure somit erhalten wir damit private Stati. Beispiel (ohne Erklärung):
+```javascript
+import Events from 'eventemitter3';
+
+const rawMixin = function () {
+    const attrs = {};
+
+    return Object.assign(this, {
+        set (name, value) {
+            attrs[name] = value;
+
+            this.emit('change', {
+                prop: name,
+                value: value
+            });
+        },
+
+        get (name) {
+            return attrs[name];
+        }
+    }, Events.prototype);
+};
+
+const mixinModel = (target) => rawMixin.call(target);
+
+const george = { name: 'george' };
+const model = mixinModel(george);
+
+model.on('change', data => console.log(data));
+
+model.set('name', 'Sam');
+```
 
 ## (Behaviour)-Delegation & `[[Prototype]]`
 `[[Prototype]]` ist eine Bezeichnung aus der ECMA-Spezifikation. Es handelt sich um eine simple __Referenz zu einem anderen Objekt__. Jedes Objekt erhält so eine Referenz zu seiner Erstellungszeit (Ausnahmen sind möglich aber selten). Durch diese Referenz wird Funktionalität resp. Verhalten (Behaviour) delegiert an andere gleichberechtigte Objekte. Es gibt im Gegensatz zu OO-Sprachen keine Eltern-Kind-Beziehung! Wenn ein Property resp. eine Methode eines Objektes aufgerufen wird und dieses in diesem Objekt nicht direkt auffindbar ist, wird automatisch sein `[[Prototype]]` durchsucht. Dieses Objekt hat wiederum einen `[[Prototype]]` gesetzt usw. So entsteht eine Delegationskette bis zu `Object.prototype`, wo einige grundsätzliche Methoden und Properties definiert sind. Beispiel:
@@ -127,7 +158,7 @@ Dies wird für sogenannte _Dictionaries_ gemacht, welche einfach nur Objekte mit
 
 ## `instanceof`
 Am besten nicht benutzen! Wird irrtümlicherweise häufig als eine Art »Typcheck« für Objekte genutzt. `instanceof` führt aber lediglich einen Verleich zwischen dem `[[Prototype]]` des Objekts und dem `Constructor.prototype` Property der Objekt-Konstruktor-Funktion durch.
-```
+```javascript
 function foo() {}
 const bar = { a: 'a'};
 
@@ -151,9 +182,9 @@ Closures sind Teil des sogenannten _Execution Context_ in JavaScript. Dieser Exe
 In JavaScript kreiert man eine _Closure_ (Deutsch: Funktionsabschluss) indem man `function` innerhalb einer anderen `function` benutzt:
 ```javascript
 function sayHello2(name) {
-  var text = 'Hello ' + name; // Local variable
-  var say = function() { console.log(text); }
-  return say;
+    var text = 'Hello ' + name; // Local variable
+    var say = function() { console.log(text); }
+    return say;
 }
 var say2 = sayHello2('Bob');
 say2(); // logs 'Hello Bob'
@@ -164,9 +195,9 @@ Somit sehen wir, dass JS für Funktionsreferenzen auch eine versteckte Referenz 
 var data = [];
  
 for (var k = 0; k < 3; k++) {
-  data[k] = function () {
-    console.log(k);
-  };
+    data[k] = function () {
+      console.log(k);
+    };
 }
  
 data[0](); // 3, but not 0
@@ -178,9 +209,9 @@ Das Problem lässt sich mit IIFE beheben (zusätzliches Scope-Objekt), was nicht
 let data = [];
  
 for (let k = 0; k < 3; k++) {
-  data[k] = function () {
-    console.log(k);
-  };
+    data[k] = function () {
+      console.log(k);
+    };
 }
  
 data[0](); // 0
