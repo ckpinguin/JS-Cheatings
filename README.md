@@ -62,6 +62,7 @@ const proto = {
 
 // The factory
 // Simplified variant using ES6 fat-arrow function syntax
+// Property delegation to `proto` can be used with `Object.create(proto)`
 const greeter = (name) => Object.assign(Object.create(proto), {
   name
 });
