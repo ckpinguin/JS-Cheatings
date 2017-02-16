@@ -73,6 +73,24 @@ Object.create(null);
 ```
 Dies wird für sogenannte _Dictionaries_ gemacht, welche einfach nur Objekte mit Daten sind, also flache Datenspeicher ohne überraschende Nebeneffekte.
 
+## `instanceof`
+Am besten nicht benutzen! Wird irrtümlicherweise häufig als eine Art »Typcheck« für Objekte genutzt. `instanceof` führt aber lediglich einen Verleich zwischen dem `[[Prototype]]` des Objekts und dem `Constructor.prototype` Property der Objekt-Konstruktor-Funktion durch.
+```
+function foo() {}
+const bar = { a: 'a'};
+
+foo.prototype = bar;
+
+// Is bar an instance of foo? Nope!
+console.log(bar instanceof foo); // false
+
+// Ok... since bar is not an instance of foo,
+// baz should definitely not be an instance of foo, right?
+const baz = Object.create(bar);
+
+// ...Wrong.
+console.log(baz instanceof foo); // true. oops.
+```
 ## (Lexical) Closures
 Closures sind Teil des sogenannten _Execution Context_ in JavaScript. Dieser Execution Context besteht aus mehreren Objekten, welche für jede aufgerufene Funktion auf einem Stack gelegt werden.
 
