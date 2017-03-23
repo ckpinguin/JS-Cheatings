@@ -50,12 +50,12 @@ Auch wenn man Delegation nutzt, können in der sogenannten _``[[Prototype]]``-ch
 Was viele nicht wissen: JS fügt automatisch fehlende Semikolons hinzu! Das führt i.d.R. zu keinen Problemen, ausser: wenn eine öffnende Klammer am Anfang einer Linie steht (kann z.B. passieren, wenn eine [_IIFE_](https://github.com/ckpinguin/JS-Cheatings/blob/master/README.md#immediately-invoked-function-expression-iife) verwendet wird).
 Es ist eine Frage des persönlichen Geschmacks resp. Faulheit, ob man ; setzt oder nicht.
 
-## prototype vs. `__proto__`
-### proto
+## `prototype` vs. `__proto__`
+### `__proto__`
 Kurzdefinition: `__proto__` ist das Objekt, welches effektiv in der _Lookup chain_ benutzt wird, um Methoden, Properties etc. aufzulösen. `prototype` hingegen ist das Objekt, welches dazu benutzt wird, den `__proto__` zu erstellen, wenn ein Object mit `new` kreiert wird.
 
-### prototype
-**Nur Funktionen** haben das _accessor-property_ namens `prototype`. Es hat nichts mit der Prototype-Lookup chain (siehe  [`__proto__`](#proto)) zu tun, sondern wird (vermutlich)  nur für die `new` Funktionalität genutzt, weil es auf den jeweiligen `contstructor` der zu erzeugenden Klasse zeigt, welcher wiederum nichts anderes als die Funktionsdefinition mit dem Klassennamen ist. Damit werden Klassen simuliert mittels Funktionen. Objekte, welche mit `new` erzeugt wurden, haben dieses Property nicht, aber ihr `__proto__` zeigt auf das entsprechende Objekt, z.B. `Foo.prototype`. Ein Bild kann vielleicht helfen in der Verwirrung: 
+### `prototype`
+**Nur Funktionen** haben das _accessor-property_ namens `prototype`. Es hat nichts mit der Prototype-Lookup chain (siehe  [`__proto__`](#__proto__)) zu tun, sondern wird (vermutlich)  nur für die `new` Funktionalität genutzt, weil es auf den jeweiligen `contstructor` der zu erzeugenden Klasse zeigt, welcher wiederum nichts anderes als die Funktionsdefinition mit dem Klassennamen ist. Damit werden Klassen simuliert mittels Funktionen. Objekte, welche mit `new` erzeugt wurden, haben dieses Property nicht, aber ihr `__proto__` zeigt auf das entsprechende Objekt, z.B. `Foo.prototype`. Ein Bild kann vielleicht helfen in der Verwirrung: 
 ![Contsructor Proto Chain (copyright by Dmitry Soshnikov)](https://github.com/ckpinguin/JS-Cheatings/blob/master/constructor-proto-chain.png "Contsructor Proto Chain (copyright by Dmitry Soshnikov), see: http://dmitrysoshnikov.com/ecmascript/javascript-the-core/#constructor")
 
 #### Anwendungsbeispiel
