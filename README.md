@@ -33,7 +33,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# JS-Learnings/Cheatings
+# JS-Learnings / Cheatsheet
 My personal JS-Cheatsheet reflecting my learnings about the nuts & bolts of JS/ECMA whatever you prefer calling it. It is currently in German, because that fits better in my brain.
 A lot of credit for my understanding of JS goes to the »[You Don't Know JS](https://github.com/getify/You-Dont-Know-JS/blob/master/README.md)« book series as well as mpjme's Youtube-Series »[funfunfunction](https://www.youtube.com/channel/UCO1cgjhGzsSYb1rsB4bFe4Q)«. Also not to forget [Mozilla's really great »MDN« JavaScript Documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
 
@@ -55,7 +55,7 @@ Es ist eine Frage des persönlichen Geschmacks resp. Faulheit, ob man ; setzt od
 Kurzdefinition: `__proto__` ist das Objekt, welches effektiv in der _Lookup chain_ benutzt wird, um Methoden, Properties etc. aufzulösen. `prototype` hingegen ist das Objekt, welches dazu benutzt wird, den `__proto__` zu erstellen, wenn ein Object mit `new` kreiert wird.
 
 ### `prototype`
-**Nur Funktionen** haben das _accessor-property_ namens `prototype`. Es hat nichts mit der Prototype-Lookup chain (siehe  [`__proto__`](#__proto__)) zu tun, sondern wird (vermutlich)  nur für die `new` Funktionalität genutzt, weil es auf den jeweiligen `contstructor` der zu erzeugenden Klasse zeigt, welcher wiederum nichts anderes als die Funktionsdefinition mit dem Klassennamen ist. Damit werden Klassen simuliert mittels Funktionen. Objekte, welche mit `new` erzeugt wurden, haben dieses Property nicht, aber ihr `__proto__` zeigt auf das entsprechende Objekt, z.B. `Foo.prototype`. Ein Bild kann vielleicht helfen in der Verwirrung: 
+**Nur Funktionen** haben das _accessor-property_ namens `prototype`. Es hat nichts mit der Prototype-Lookup chain (siehe  [`__proto__`](#__proto__)) zu tun, sondern wird (vermutlich)  nur für die `new` Funktionalität genutzt, weil es auf den jeweiligen `constructor` der zu erzeugenden Klasse zeigt, welcher wiederum nichts anderes als die Funktionsdefinition mit dem Klassennamen ist. Damit werden Klassen simuliert mittels Funktionen. Objekte, welche mit `new` erzeugt wurden, haben dieses Property nicht, aber ihr `__proto__` zeigt auf das entsprechende Objekt, z.B. `Foo.prototype`. Ein Bild kann vielleicht helfen in der Verwirrung: 
 ![Contsructor Proto Chain (copyright by Dmitry Soshnikov)](https://github.com/ckpinguin/JS-Cheatings/blob/master/constructor-proto-chain.png "Contsructor Proto Chain (copyright by Dmitry Soshnikov), see: http://dmitrysoshnikov.com/ecmascript/javascript-the-core/#constructor")
 
 #### Anwendungsbeispiel
